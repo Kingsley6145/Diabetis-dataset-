@@ -1,0 +1,33 @@
+import pandas as pd
+from sklearn.model_selection import cross_val_score, KFold
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.tree import DecisionTreeClassifier
+
+# Load preprocessed dataset
+filled_file_path = 'filled_diabetes.csv'
+data = pd.read_csv(filled_file_path)
+
+# Separate features and target variable
+X = data.drop(columns=['Outcome'])  # Assuming 'Outcome' is the target column
+y = data['Outcome']
+
+# Initialize models
+knn = KNeighborsClassifier()
+dt = DecisionTreeClassifier()
+
+# Initialize k-fold cross-validation
+k_folds = 5
+kf = KFold(n_splits=k_folds, shuffle=True, random_state=42)
+
+# Perform k-fold cross-validation for KNN
+knn_scores = cross_val_score(knn, X, y, cv=kf)
+
+# Perform k-fold cross-validation for Decision Tree
+dt_scores = cross_val_score(dt, X, y, cv=kf)
+
+# Print the mean accuracy and standard deviation for each algorithm
+print(f'KNN Cross-Validation Scores: {knn_scores}')
+print(f'Mean Accuracy: {knn_scores.mean():.4f} (± {knn_scores.std():.4f})')
+
+print(f'Decision Tree Cross-Validation Scores: {dt_scores}')
+print(f'Mean Accuracy: {dt_scores.mean():.4f} (± {dt_scores.std():.4f})')
