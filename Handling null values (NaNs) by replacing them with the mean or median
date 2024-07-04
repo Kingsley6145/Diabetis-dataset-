@@ -1,0 +1,19 @@
+import pandas as pd
+import numpy as np
+
+# Load the cleaned dataset (assuming you've already performed the previous steps)
+cleaned_file_path = 'cleaned_diabetes.csv'
+data = pd.read_csv(cleaned_file_path)
+
+# Handle missing values (NaNs) by replacing with mean or median
+# Example with mean:
+data.fillna(data.mean(), inplace=True)
+
+# Alternatively, replace with median:
+# data.fillna(data.median(), inplace=True)
+
+# Save the dataset with filled missing values
+filled_file_path = 'filled_diabetes.csv'
+data.to_csv(filled_file_path, index=False)
+
+print("Missing values filled with mean/median. Updated dataset saved to", filled_file_path)
